@@ -1,0 +1,33 @@
+name: Run Git Actions
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Runs every hour
+  push:
+    branches:
+      - main  # Replace with your branch name if needed
+
+jobs:
+  run-git-actions:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install Dependencies
+        run: |
+          if [ -f utils/requirement.txt ]; then
+            pip install -r utils/requirement.txt
+          fi
+
+      - name: Make Bash Script Executable
+        run: chmod +x utils/git_automate.sh
+
+      - name: Run Bash Script
+        run: utils/git_automate.sh
