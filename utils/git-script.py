@@ -3,6 +3,7 @@
 import os
 import subprocess
 import sys
+from datetime import datetime
 
 
 # Path to the local repository directory
@@ -15,6 +16,13 @@ if not os.path.exists(REPO_PATH):
 
 # Change to the repository directory
 os.chdir(REPO_PATH)
+
+
+def log_message(message):
+    """
+    Logs a message with a timestamp.
+    """
+    print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {message}")
 
 
 def execute_command(command):
@@ -32,42 +40,59 @@ def git_actions():
     """
     Checks for changes in the repository, commits them, and pushes to the 'testnet' branch.
     """
-    # check for git branch
-    status = execute_command('git branch')
-    print(f"Git Status: {status}")
+    # Ensure git is available
+    log_message("Checking for git installation...")
+    git_version, err = execute_command("git --version")
+    if err:
+        log_message(f"Error: Git is not installed or not available. Details: {err}")
+        return
+
+    log_message(f"Git version detected: {git_version}")
+
+    # Check current branch
+    log_message("Checking current git branch...")
+    branch_output, err = execute_command("git branch --show-current")
+    if err:
+        log_message(f"Error: Failed to determine the current branch. Details: {err}")
+        return
+
+    current_branch = branch_output.strip()
+    log_message(f"Current branch: {current_branch}")
 
     # Check for changes in the repository
+    log_message("Checking for changes in the repository...")
     out, err = execute_command("git status --porcelain")
     if out:
-        print("Changes detected. Proceeding with commit and push operations...")
+        log_message("Changes detected. Proceeding with commit and push operations...")
 
         # Add all changes
         out, err = execute_command("git add .")
         if err:
-            print(f"Error during 'git add': {err}")
+            log_message(f"Error during 'git add': {err}")
             return
 
         # Commit the changes
         commit_message = "Auto-commit changes"
         out, err = execute_command(f"git commit -m \"{commit_message}\"")
         if err:
-            print(f"Error during 'git commit': {err}")
+            log_message(f"Error during 'git commit': {err}")
             return
-        print("Commit successful.")
+        log_message("Commit successful.")
 
-        # Push changes to the 'testnet' branch
-        out, err = execute_command("git push origin testnet")
+        # Push changes to the current branch (or 'testnet' branch)
+        log_message(f"Pushing changes to branch '{current_branch}'...")
+        out, err = execute_command(f"git push origin {current_branch}")
         if err:
-            print(f"Error while pushing to 'testnet': {err}")
+            log_message(f"Error while pushing to branch '{current_branch}': {err}")
         else:
-            print("Changes successfully pushed to 'testnet'.")
+            log_message("Changes successfully pushed.")
     else:
-        print("No changes detected. Nothing to commit or push.")
+        log_message("No changes detected. Nothing to commit or push.")
 
 
 if __name__ == "__main__":
     try:
-        print("Starting git actions...")
+        log_message("Starting git actions...")
         git_actions()
     except Exception as e:
-        print(f"Unexpected error: {e}")
+        log_message(f"Unexpected error: {e}")
