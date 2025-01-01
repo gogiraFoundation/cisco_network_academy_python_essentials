@@ -4,9 +4,6 @@ def printlog(result=None):
     print(f'Your Personal Income Tax is: {result} thalers')
     
 
-
-
-
 def tax_calculator(tax=None, income=None):
 
     try:
