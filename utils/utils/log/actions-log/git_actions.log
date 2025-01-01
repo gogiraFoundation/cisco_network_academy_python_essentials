@@ -1,0 +1,6 @@
+2025-01-01 09:46:10: Running script ./git_actions.py...
+C:\Users\gogir\AppData\Local\Microsoft\WindowsApps\python3.exe: can't open file 'E:\\Users\\gogir\\gogira\\cisco_network_academy_python_essentials\\cisco_network_academy_python_essentials\\utils\\git_actions.py': [Errno 2] No such file or directory
+2025-01-01 09:46:12: Script failed. Failure count: 1
+2025-01-01 09:49:15: Running script ./git_actions.py...
+C:\Users\gogir\AppData\Local\Microsoft\WindowsApps\python3.exe: can't open file 'E:\\Users\\gogir\\gogira\\cisco_network_academy_python_essentials\\cisco_network_academy_python_essentials\\utils\\git_actions.py': [Errno 2] No such file or directory
+2025-01-01 09:49:16: Script failed. Failure count: 2
