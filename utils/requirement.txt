@@ -1,9 +1,5 @@
 # requirements.txt
 
-# Python version requirement
-# Ensure Python 3.8 or higher is used
-python_version >= "3.8"
-
 # For managing environment variables
 python-dotenv
 
