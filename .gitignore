@@ -1,1 +1,10 @@
 secret.py
+# Python bytecode (can embed secret values)
+__pycache__/
+*.pyc
+
+# Credentials
+utils/secret.py
+.env
+.env.*
+!.env.example
